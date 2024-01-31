@@ -1,0 +1,16 @@
+{
+  "name": "untitled-folder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "alchemy-sdk": "^3.1.2",
+    "ethereum-block-by-date": "^1.4.9",
+    "ethers": "^5.5.3"
+  }
+}
