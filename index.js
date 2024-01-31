@@ -16,7 +16,7 @@ const main = async () => {
     const dataArr = [];
 
     // Loop through NFT token IDs from 1 to 10
-    for (let tokenId = 86; tokenId <= 10000; tokenId++) {
+    for (let tokenId = 187; tokenId <= 10000; tokenId++) {
         console.log("Processing Token ID:", tokenId);
 
         const lockedabi = ['function locked(uint256 _tokenId) view returns (int128,uint)']
