@@ -1,0 +1,82 @@
+[
+  {
+    "tokenId": 1,
+    "owner": [
+      "0x0000000000000000000000000000000000000000"
+    ],
+    "lockedChr": "0",
+    "lockedUntill": "0"
+  },
+  {
+    "tokenId": 2,
+    "owner": [
+      "0x0000000000000000000000000000000000000000"
+    ],
+    "lockedChr": "0",
+    "lockedUntill": "0"
+  },
+  {
+    "tokenId": 3,
+    "owner": [
+      "0x04AE7ab5DC70a3294cD4c0eFC6507e36105987E4"
+    ],
+    "lockedChr": "5283526552655265526552",
+    "lockedUntill": "1755129600"
+  },
+  {
+    "tokenId": 4,
+    "owner": [
+      "0x0000000000000000000000000000000000000000"
+    ],
+    "lockedChr": "0",
+    "lockedUntill": "0"
+  },
+  {
+    "tokenId": 5,
+    "owner": [
+      "0x0000000000000000000000000000000000000000"
+    ],
+    "lockedChr": "0",
+    "lockedUntill": "0"
+  },
+  {
+    "tokenId": 6,
+    "owner": [
+      "0x17532dDeD559B74Ed2D3fB428DAC6347F6365c16"
+    ],
+    "lockedChr": "1000000000000000000",
+    "lockedUntill": "1698278400"
+  },
+  {
+    "tokenId": 7,
+    "owner": [
+      "0x0000000000000000000000000000000000000000"
+    ],
+    "lockedChr": "0",
+    "lockedUntill": "0"
+  },
+  {
+    "tokenId": 8,
+    "owner": [
+      "0x0000000000000000000000000000000000000000"
+    ],
+    "lockedChr": "0",
+    "lockedUntill": "0"
+  },
+  {
+    "tokenId": 9,
+    "owner": [
+      "0x0000000000000000000000000000000000000000"
+    ],
+    "lockedChr": "0",
+    "lockedUntill": "0"
+  },
+  {
+    "tokenId": 10,
+    "owner": [
+      "0x0000000000000000000000000000000000000000"
+    ],
+    "lockedChr": "0",
+    "lockedUntill": "0"
+  }
+]

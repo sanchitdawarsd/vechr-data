@@ -1,51 +1,60 @@
-const { Alchemy, Network, Utils } = require("alchemy-sdk");
+const { Alchemy, Network } = require("alchemy-sdk");
 const { ethers } = require('ethers');
-const EthDater = require('ethereum-block-by-date');
+const fs = require('fs');
+const { BigNumber } = require('ethers');
+
 
 const config = {
     apiKey: "JO0aoHWHLdYkxMAwDQLZPC51Nv52ES2C",
     network: Network.ARB_MAINNET,
     timeout: 900000, // Set a longer timeout (300,000 milliseconds or 5 minutes)
-
 };
 const alchemy = new Alchemy(config);
 
-const dater = new EthDater(
-    alchemy.core // Ethers provider, required.
-);
-
 const main = async () => {
-
-    // Wallet address
-    const tokenid = 6566;
-
-    // chr contract address
     const contractAddress = "0x9A01857f33aa382b1d5bb96C3180347862432B0d";
+    const dataArr = [];
 
-    // Set timestamp
-    const timestamp = '2023-12-05T23:59:59Z'; // Ensure the day and month are zero-padded if needed
+    // Loop through NFT token IDs from 1 to 10
+    for (let tokenId = 1; tokenId <= 10; tokenId++) {
+        console.log("Processing Token ID:", tokenId);
 
+        const lockedabi = ['function locked(uint256 _tokenId) view returns (int128,uint)']
+        const ownerabi = ['function ownerOf(uint256 _tokenId) view returns (address)'];
 
-    // Get blocknumber 
-    // let block = await dater.getDate(timestamp);
-    // let blockNum = block['block']
-    // console.log(blockNum)
-    // ABI
-    let abi = [
-        'function locked(uint256 tokenid)'
-    ];
+        const iface = new ethers.utils.Interface(lockedabi);
+        const ifaceowner = new ethers.utils.Interface(ownerabi);
 
-    // Create function call data
-    let iface = new ethers.utils.Interface(abi) 
-    let data = iface.encodeFunctionData("locked", [9985]);
+        const data = iface.encodeFunctionData("locked", [tokenId]);
+        const ownerData = ifaceowner.encodeFunctionData("ownerOf", [tokenId]);
 
-    // Get balance at a particular block -- usage of eth_call
-    let balance = await alchemy.core.call({
-        to: contractAddress,
-        data: data,
-    }, 157265056);
+        try {
+            // Get locked at a particular block using eth_call
+            const lockedResponse = await alchemy.core.call({
+                to: contractAddress,
+                data: data,
+            }, 157265056);
 
-    console.log("Balance:",balance, "lockedchr and until");
+            // Get owner at a particular block using eth_call
+            const ownerDataResponse = await alchemy.core.call({
+                to: contractAddress,
+                data: ownerData,
+            }, 157265056);
+
+            const owner = ifaceowner.decodeFunctionResult("ownerOf", ownerDataResponse);
+            const locked = iface.decodeFunctionResult("locked", lockedResponse);
+
+            dataArr.push({ tokenId, owner: owner, lockedChr: BigNumber.from(locked[0]).toString() , lockedUntill:BigNumber.from(locked[1]).toString() }); // Convert locked to string
+            fs.writeFileSync('venftdata.json', JSON.stringify(dataArr, null, 2), 'utf-8');
+            console.log(`Token ID: ${tokenId}, lockedChr: ${BigNumber.from(locked[0]).toString()} , lockedUntill: ${BigNumber.from(locked[1]).toString()} , Owner: ${owner}`);
+        } catch (error) {
+            console.error(`Error processing Token ID ${tokenId}:`, error);
+        }
+    }
+
+    // Write data to a JSON file
+  //  fs.writeFileSync('nft_data.json', JSON.stringify(dataArr, null, 2), 'utf-8');
+    console.log('Data written to venftdata.json');
 };
 
 const runMain = async () => {
@@ -53,9 +62,12 @@ const runMain = async () => {
         await main();
         process.exit(0);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         process.exit(1);
     }
 };
 
 runMain();
+
+
+
