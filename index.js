@@ -5,7 +5,7 @@ const { BigNumber } = require('ethers');
 
 
 const config = {
-    apiKey: "JO0aoHWHLdYkxMAwDQLZPC51Nv52ES2C",
+    apiKey: "HnZD2JznEg0TvSdDvtgBjxbXdk5j8-yX",
     network: Network.ARB_MAINNET,
     timeout: 900000, // Set a longer timeout (300,000 milliseconds or 5 minutes)
 };
@@ -16,7 +16,7 @@ const main = async () => {
     const dataArr = [];
 
     // Loop through NFT token IDs from 1 to 10
-    for (let tokenId = 187; tokenId <= 10000; tokenId++) {
+    for (let tokenId = 519; tokenId <= 10000; tokenId++) {
         console.log("Processing Token ID:", tokenId);
 
         const lockedabi = ['function locked(uint256 _tokenId) view returns (int128,uint)']
