@@ -14,10 +14,11 @@ const alchemy = new Alchemy(config);
 const main = async () => {
     const contractAddress = "0x9A01857f33aa382b1d5bb96C3180347862432B0d";
     const dataArr = [];
-
+    let arr= [86,103,121,122,135,137,155,170,188,194,195,201,245,489]
     // Loop through NFT token IDs from 1 to 10
-    for (let tokenId = 10000; tokenId <= 11055; tokenId++) {
-        console.log("Processing Token ID:", tokenId);
+    for (let tokenId = 0; tokenId <= 14; tokenId++) {
+         
+        console.log("Processing Token ID:", arr[tokenId]);
 
         const lockedabi = ['function locked(uint256 _tokenId) view returns (int128,uint)']
         const ownerabi = ['function ownerOf(uint256 _tokenId) view returns (address)'];
@@ -25,8 +26,8 @@ const main = async () => {
         const iface = new ethers.utils.Interface(lockedabi);
         const ifaceowner = new ethers.utils.Interface(ownerabi);
 
-        const data = iface.encodeFunctionData("locked", [tokenId]);
-        const ownerData = ifaceowner.encodeFunctionData("ownerOf", [tokenId]);
+        const data = iface.encodeFunctionData("locked", [arr[tokenId]]);
+        const ownerData = ifaceowner.encodeFunctionData("ownerOf", [arr[tokenId]]);
 
         try {
             // Get locked at a particular block using eth_call
@@ -44,9 +45,9 @@ const main = async () => {
             const owner = ifaceowner.decodeFunctionResult("ownerOf", ownerDataResponse);
             const locked = iface.decodeFunctionResult("locked", lockedResponse);
 
-            dataArr.push({ tokenId, owner: owner, lockedChr: BigNumber.from(locked[0]).toString() , lockedUntill:BigNumber.from(locked[1]).toString() }); // Convert locked to string
+            dataArr.push({ tokenId: arr[tokenId], owner: owner, lockedChr: BigNumber.from(locked[0]).toString() , lockedUntill:BigNumber.from(locked[1]).toString() }); // Convert locked to string
             fs.writeFileSync('venftdata.json', JSON.stringify(dataArr, null, 2), 'utf-8');
-            console.log(`Token ID: ${tokenId}, lockedChr: ${BigNumber.from(locked[0]).toString()} , lockedUntill: ${BigNumber.from(locked[1]).toString()} , Owner: ${owner}`);
+            console.log(`Token ID: ${arr[tokenId]}, lockedChr: ${BigNumber.from(locked[0]).toString()} , lockedUntill: ${BigNumber.from(locked[1]).toString()} , Owner: ${owner}`);
         } catch (error) {
             console.error(`Error processing Token ID ${tokenId}:`, error);
         }
